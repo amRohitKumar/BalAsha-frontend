@@ -1,0 +1,42 @@
+.landing-page {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    position: relative;
+    background-image: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('../../assets/background.png'); /* Replace 'background.jpg' with the actual path to your image */
+    background-size: cover;
+    background-position: center;
+    background-blend-mode: multiply;
+  }
+  
+  .logo {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    width: 100px;
+  }
+  
+  .welcome-text {
+    font-size: 48px;
+    margin-bottom: 10px;
+  }
+  
+  .sub-text {
+    font-size: 24px;
+    margin-bottom: 40px;
+    color: white;
+  }
+  
+  .buttons-container {
+    display: flex;
+  }
+  
+  .signin-button,
+  .signup-button {
+    padding: 10px 20px;
+    font-size: 18px;
+    margin: 0 10px;
+  }
+  
