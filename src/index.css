@@ -166,6 +166,12 @@ ul {
   align-items: center;
 }
 
+@media (max-width: 600px) {
+  .align-horizontal{
+    flex-direction: column;
+  }
+}
+
 .align-vertical {
   display: flex;
   justify-content: center;

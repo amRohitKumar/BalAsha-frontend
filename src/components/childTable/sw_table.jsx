@@ -97,7 +97,6 @@ function EnhancedTableHead(props) {
           <TableCell
             key={headCell.id}
             align={idx === 0 ? "left" : "center"}
-            sx={{ pl: "3em" }}
             sortDirection={orderBy === headCell.id ? order : false}
           >
             <TableSortLabel
@@ -169,14 +168,6 @@ const SWChildTable = ({ list }) => {
             aria-labelledby="tableTitle"
             size="medium"
           >
-            <Typography
-              sx={{ flex: "1 1 100%" }}
-              variant="h6"
-              id="tableTitle"
-              component="div"
-            >
-              Nutrition
-            </Typography>
             <EnhancedTableHead
               order={order}
               orderBy={orderBy}

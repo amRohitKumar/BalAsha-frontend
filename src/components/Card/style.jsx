@@ -12,6 +12,7 @@ const Wrapper = styled(Paper, {
   position: "relative",
   overflow: "hidden",
   backgroundColor: bgclr1,
+
   // backgroundColor: "#5e35b1",
   borderRadius: "1rem",
   color: "white",
