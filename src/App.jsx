@@ -23,7 +23,7 @@ function App() {
   return (
     <BrowserRouter>
       <ThemeProvider theme={theme}>
-        <Toaster />
+        <Toaster /> 
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/childprofile" element={<ChildProfile />} />
