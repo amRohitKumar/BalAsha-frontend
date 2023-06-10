@@ -199,7 +199,7 @@ const ManagerChildTable = ({ list, CSVDownload }) => {
                       navigate(
                         row.next_step === "COMPLETED"
                           ? "/childprofile"
-                          : "process",
+                          : "/officer/process",
                         { state: { childId: row._id, isManager: true } }
                       )
                     }

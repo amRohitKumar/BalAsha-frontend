@@ -69,7 +69,7 @@ const Process = () => {
   if(loading){
     return <CircularLoader />
   }
-  
+
   return (
     <ProcessBox sx={{ px: { xs: "1em", md: "2em", lg: "5em" } }}>
       {!loading && (
@@ -95,7 +95,7 @@ const Process = () => {
                     key={idx}
                     {...subStep._process}
                     startDate={subStep.start_date}
-                    endDate={subStep.end_date}
+                    endDate={subStep?.end_date || "10-07-2023"}
                     isCompleted={subStep.is_completed}
                     response={subStep.response}
                     fileUrl={subStep.url}

@@ -32,6 +32,7 @@ const ProcessStep = ({
   stepId,
   fetchData,
 }) => {
+  console.log(startDate, endDate);
   const [view, setView] = useState(!isCompleted);
   const [value, setValue] = useState(response);
   const [url, setUrl] = useState(fileUrl);
@@ -50,7 +51,7 @@ const ProcessStep = ({
   const handleImage = async (e) => {
     setUrl(e.target.files[0]);
   };
-  
+
   const handleSubmit = async () => {
     try {
       let URL = "/operator";
@@ -73,7 +74,8 @@ const ProcessStep = ({
         };
       }
       await customFetch.patch(URL, formData, header);
-      setValue(""); setUrl("");
+      setValue("");
+      setUrl("");
       fetchData();
       toast.success("Fields updated successfully");
     } catch (e) {
@@ -81,8 +83,7 @@ const ProcessStep = ({
       toast.error("Something went wrong !");
     }
   };
-  
-  
+
   return (
     <StepBox elevation={3} isCompleted={isCompleted}>
       <Typography
@@ -142,23 +143,21 @@ const ProcessStep = ({
                 <>End : {moment(endDate).format("MMMM Do YYYY")}</>
               )}
             </Button>
-            {role === "SOCIAL_WORKER" && (
-              <Button
-                className="button-grp1"
+            {url ? (
+              <IconButton
                 size="small"
-                startIcon={url ? <></> : <Download />}
+                className="button-grp1"
+                aria-label="Open file"
+                LinkComponent="a"
+                href={url}
+                target="_blank"
+                rel="noreferrer"
               >
-                {url ? (
-                  <IconButton
-                    size="small"
-                    aria-label="Open file"
-                    LinkComponent="a"
-                    href={url}
-                    // action="_blank"
-                  >
-                    <FileOpenIcon />
-                  </IconButton>
-                ) : (
+                <FileOpenIcon />
+              </IconButton>
+            ) : (
+              <>
+                {role === "SOCIAL_WORKER" && (
                   <label htmlFor="contained-button-file" className="">
                     <input
                       accept="image/png, image/jpg, image/jpeg, application/pdf"
@@ -168,7 +167,7 @@ const ProcessStep = ({
                     />
                   </label>
                 )}
-              </Button>
+              </>
             )}
           </Box>
           <Button
