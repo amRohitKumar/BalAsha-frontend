@@ -10,7 +10,6 @@ import {
   Button,
   CssBaseline,
   TextField,
-  Link,
   Grid,
   Box,
   Typography,
@@ -21,6 +20,7 @@ import {
   FormControl,
   Select,
 } from "@mui/material";
+import { Link } from "react-router-dom";
 import {
   PersonIcon,
   EmailIcon,
@@ -216,7 +216,7 @@ export default function Register() {
             </Button>
             <Grid container justifyContent="flex-end">
               <Grid item>
-                <Link href="/login" variant="body2">
+                <Link to="/login" variant="body2">
                   Already have an account? Log in
                 </Link>
               </Grid>

@@ -8,7 +8,6 @@ import {
   Button,
   CssBaseline,
   TextField,
-  Link,
   Grid,
   Container,
   Typography,
@@ -16,6 +15,7 @@ import {
   InputAdornment,
   Avatar,
 } from "@mui/material";
+import { Link } from "react-router-dom";
 import { EmailIcon, LockOutlinedIcon, NoEncryptionIcon } from "../../../icons";
 
 const LogIn = () => {
@@ -122,8 +122,8 @@ const LogIn = () => {
                 </Link>
               </Grid>
               <Grid item>
-                <Link href="/register" variant="body2">
-                  {"Register now"}
+                <Link to="/register" variant="body2">
+                  Register now
                 </Link>
               </Grid>
             </Grid>
