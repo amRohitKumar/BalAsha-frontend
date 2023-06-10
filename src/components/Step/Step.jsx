@@ -15,6 +15,8 @@ import authHeader from "../../utils/useAuthHeader";
 import { useSelector } from "react-redux";
 import DatePicker from "react-datepicker";
 import toast from "react-hot-toast";
+import { FileOpenIcon } from "../../icons";
+import IconButton from "@mui/material/IconButton";
 import "react-datepicker/dist/react-datepicker.css";
 
 const ProcessStep = ({
@@ -28,7 +30,7 @@ const ProcessStep = ({
   processId,
   childId,
   stepId,
-  setProcess,
+  fetchData,
 }) => {
   const [view, setView] = useState(!isCompleted);
   const [value, setValue] = useState(response);
@@ -45,32 +47,47 @@ const ProcessStep = ({
     setNewDate(n);
   };
 
+  const handleImage = async (e) => {
+    setUrl(e.target.files[0]);
+  };
+  
   const handleSubmit = async () => {
-    // console.log(childId, processId, stepId);
-    try{
+    try {
       let URL = "/operator";
-      let obj = {};
+      let header = {};
+      const formData = new FormData();
       if (role === "MANAGER") {
         URL = URL + `/updatetime/${childId}/${processId}/${stepId}`;
-        obj = { start_date: newDate[0], end_date: newDate[1] };
+        formData.append("start_date", newDate[0]);
+        formData.append("end_date", newDate[1]);
+        header = authHeader(token);
       } else {
         URL = URL + `/update/${childId}/${processId}/${stepId}`;
-        obj = { response: value, url };
+        formData.append("documents", url);
+        formData.append("response", value);
+        header = {
+          headers: {
+            authorization: `Bearer ${token}`,
+            "Content-Type": "multipart/form-data",
+          },
+        };
       }
-      const resp = await customFetch.patch(URL, obj, authHeader(token));
-      console.log("after change = ", resp.data.data.process);
-      setProcess(resp.data.data.process);
+      await customFetch.patch(URL, formData, header);
+      setValue(""); setUrl("");
+      fetchData();
       toast.success("Fields updated successfully");
-    } catch(e){
+    } catch (e) {
       console.log(e);
       toast.error("Something went wrong !");
     }
   };
+  
+  
   return (
     <StepBox elevation={3} isCompleted={isCompleted}>
       <Typography
         variant="h5"
-        sx={{ color: "#cd366b" }}
+        sx={{ color: "#cd366b", cursor: "pointer" }}
         onClick={() => setView(!view)}
       >
         {name}
@@ -80,7 +97,7 @@ const ProcessStep = ({
         <Divider sx={{ mb: "1em" }} />
         <TextField
           label="Description"
-          placeholder="ddd"
+          placeholder="Description (if required)"
           multiline
           fullWidth
           variant="standard"
@@ -129,20 +146,28 @@ const ProcessStep = ({
               <Button
                 className="button-grp1"
                 size="small"
-                startIcon={<Download />}
+                startIcon={url ? <></> : <Download />}
               >
-                <label htmlFor="contained-button-file" className="">
-                  <input
-                    // value={value}
-                    // accept={accept}
-                    // disabled={disabled}
-                    style={{ display: "none" }}
-                    id="contained-button-file"
-                    type="file"
-                    // onChange={disabled ? () => {} : onChange}
-                  />
-                  Add file
-                </label>
+                {url ? (
+                  <IconButton
+                    size="small"
+                    aria-label="Open file"
+                    LinkComponent="a"
+                    href={url}
+                    // action="_blank"
+                  >
+                    <FileOpenIcon />
+                  </IconButton>
+                ) : (
+                  <label htmlFor="contained-button-file" className="">
+                    <input
+                      accept="image/png, image/jpg, image/jpeg, application/pdf"
+                      id="contained-button-file"
+                      type="file"
+                      onChange={handleImage}
+                    />
+                  </label>
+                )}
               </Button>
             )}
           </Box>

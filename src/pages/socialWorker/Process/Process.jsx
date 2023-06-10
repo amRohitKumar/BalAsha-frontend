@@ -44,25 +44,25 @@ const Process = () => {
     }
   };
 
-  useEffect(() => {
-    const fetchData = async () => {
-      setLoading(true);
-      try {
-        const resp = await customFetch.get(
-          `/child/${childId}`,
-          authHeader(token)
-        );
+  const fetchData = async () => {
+    setLoading(true);
+    try {
+      const resp = await customFetch.get(
+        `/child/${childId}`,
+        authHeader(token)
+      );
+      setProcess(resp.data.data.process);
+      setLoading(false);
+    } catch (e) {
+      setLoading(false);
+      console.log(e.response);
+      toast.error(
+        "Something gone wrong while fetching data ! Please try again"
+      );
+    }
+  };
 
-        setProcess(resp.data.data.process);
-        setLoading(false);
-      } catch (e) {
-        setLoading(false);
-        console.log(e.response);
-        toast.error(
-          "Something gone wrong while fetching data ! Please try again"
-        );
-      }
-    };
+  useEffect(() => {
     fetchData();
   }, [token,childId]);
 
@@ -102,7 +102,7 @@ const Process = () => {
                     processId={step._id}
                     stepId={subStep._id}
                     childId={childId}
-                    setProcess={setProcess}
+                    fetchData={fetchData}
                   />
                 ))}
                 <Box

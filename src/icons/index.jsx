@@ -19,6 +19,7 @@ import ImageIcon from '@mui/icons-material/Image';
 import AcceptedIcon from "./accepted";
 import RejectedIcon from "./rejected";
 import Download from "./download";
+import FileOpenIcon from '@mui/icons-material/FileOpen';
 
 export {
   AcceptedIcon,
@@ -42,4 +43,5 @@ export {
   SearchIcon,
   Download,
   ImageIcon,
+  FileOpenIcon,
 };
