@@ -73,6 +73,12 @@ const headCells = [
     label: "Gender",
   },
   {
+    id: "dob",
+    numeric: true,
+    disablePadding: false,
+    label: "Age",
+  },
+  {
     id: "category",
     numeric: false,
     disablePadding: false,
@@ -205,13 +211,14 @@ const ManagerChildTable = ({ list, CSVDownload }) => {
                     }
                     // role="checkbox"
                     tabIndex={-1}
-                    key={row.name}
+                    key={row._id}
                     sx={{ cursor: "pointer" }}
                   >
                     <TableCell component="th" scope="row" align="left">
                       {row.name}
                     </TableCell>
                     <TableCell align="center">{row.gender}</TableCell>
+                    <TableCell align="center">{row.dob}</TableCell>
                     <TableCell align="center">{row.category}</TableCell>
                     <TableCell align="center">{row.next_step}</TableCell>
                   </TableRow>

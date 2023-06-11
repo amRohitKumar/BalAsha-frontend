@@ -10,7 +10,7 @@ import toast from "react-hot-toast";
 import moment from "moment";
 import { Table } from "antd";
 import PictureAsPdfIcon from "@mui/icons-material/PictureAsPdf";
-import { detalilsColumn, orphanageColumns } from "./form";
+import { detalilsColumn, orphanageColumns, createColumns, createRows } from "./form";
 import { CircularLoader } from "../../../components";
 
 const ChildProfile = () => {
@@ -18,6 +18,7 @@ const ChildProfile = () => {
   const { token } = useSelector((state) => state.user.user);
   const [loading, setLoading] = useState(true);
   const [data, setData] = useState();
+  const [details, setDetails] = useState();
   const [links, setLinks] = useState();
   const { childId } = state;
 
@@ -31,9 +32,10 @@ const ChildProfile = () => {
         );
         setData(resp.data.data);
         setLinks(resp.data.links);
+        setDetails(resp.data.details);
         setLoading(false);
-        console.log(resp.data.data);
-        console.log(resp.data.links);
+        // console.log(resp.data.data);
+        // console.log(resp.data.links);
       } catch (e) {
         setLoading(false);
         console.log(e);
@@ -155,7 +157,11 @@ const ChildProfile = () => {
         <Box className="banner">
           <Box className="img-banner" />
           <Box className="child-info">
-            <img src={BGImage} alt="Child" className="child-img-tag" />
+            <img
+              src={data.image_url || BGImage}
+              alt="Child"
+              className="child-img-tag"
+            />
             <Box>
               <Typography variant="h4">{data.name}</Typography>
               <Typography variant="h6">
@@ -184,6 +190,16 @@ const ChildProfile = () => {
             dataSource={orphanage_data}
           />
         </Box>
+        {Object.entries(details).map(([key, val], i) => (
+          <Box className="child-details" key={i}>
+            <Table
+              bordered={true}
+              pagination={false}
+              columns={createColumns(key)}
+              dataSource={createRows(val)}
+            />
+          </Box>
+        ))}
         <Paper sx={{ m: 2, p: 2 }} elevation={10}>
           <Typography variant="h5" sx={{ mb: 2 }}>
             Documents

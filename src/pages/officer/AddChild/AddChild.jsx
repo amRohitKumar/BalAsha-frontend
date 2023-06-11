@@ -25,6 +25,7 @@ const AddChild = () => {
   const navigate = useNavigate();
   const { token } = useSelector((store) => store.user.user);
   const [list, setList] = useState([]);
+  const [url, setUrl] = useState("");
   const [loading, setLoading] = useState(true);
   const [category, setCategory] = useState("R&D Institute");
   const [gender, setGender] = useState("MALE");
@@ -32,12 +33,15 @@ const AddChild = () => {
 
   const handleSubmit = async (e) => {
     try {
+      setLoading(true);
       e.preventDefault();
 
       const data = new FormData(e.currentTarget);
+      const resp = new FormData();
+
       const response = {
         name: data.get("name"),
-        image_url: "",
+        image_url: url,
         dob: data.get("dob"),
         orphanage_name: data.get("orphanage_name"),
         city: data.get("city"),
@@ -58,8 +62,19 @@ const AddChild = () => {
         case_history: data.get("case_history"),
         operator_assigned: operator,
       };
+       
+      for(let prop in response){
+        resp.append(prop, response[prop]);
+      }
 
-      await customFetch.post("/child/add", response, authHeader(token));
+      await customFetch.post("/child/add", resp, {
+        headers: {
+          authorization: `Bearer ${token}`,
+          "Content-Type": "multipart/form-data",
+        },
+      });
+      setLoading(false);
+      toast.success("Child added successfully !");
       navigate("/officer");
     } catch (e) {
       console.log(e);
@@ -115,7 +130,7 @@ const AddChild = () => {
         <Grid container spacing={2} sx={{ mb: 2 }}>
           <Grid item xs={12} sm={3}>
             <Typography>
-              <span className="boldTypo">Name of the Applicant </span>
+              <span className="boldTypo">Name of the Child </span>
             </Typography>
           </Grid>
           <Grid item xs={12} sm={4}>
@@ -144,9 +159,11 @@ const AddChild = () => {
             >
               <input
                 type="file"
+                accept="image/png, image/jpg, image/jpeg"
                 name="image"
                 className="file-input"
                 width="100%"
+                onChange={(e) => setUrl(e.target.files[0])}
               />
             </Button>
           </Grid>
@@ -176,7 +193,7 @@ const AddChild = () => {
                 <span className="">Date of Birth </span>
               </Typography>
               <label>
-                <input type="date" name="dob" />
+                <input type="date" name="dob" required />
               </label>
             </Box>
           </Grid>
